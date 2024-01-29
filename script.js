@@ -10,20 +10,14 @@ function divideNumbers(a, b) {
     return parseFloat(a) / parseFloat(b);
 }
 
-
+//Adding solutionTracker to keep updated calculation. 
+//This is more to free up num1 & num2 for all use cases. 
 let calculation = {
     num1: "",
     operator: "",
-    num2: "" 
+    num2: "", 
+    solutionTracker: ""
 }
-//access array in calculations:
-//calculation.num1[0], or calculation.num1.length
-
-
-
-//equals.click -> run operate function -> display solution
-
-
 
 //THIS SECTION HANDLES THE NUMBER BUTTONS
 let addClick = document.querySelectorAll(".number");
@@ -36,6 +30,9 @@ addClick.forEach(number => {
 
 function updateCalculation(buttonValue){
     let display = document.getElementById('display');
+    display.textContent = buttonValue;
+
+
 
     if(calculation.operator === ""){  
             calculation.num1 += buttonValue;
@@ -77,15 +74,14 @@ findSolution.addEventListener('click', () => {
     let display = document.getElementById('display');
     let solution = operate(calculation);
     display.textContent = solution;
-    //I need the code to continue calculations in a specific manner. 
-    //1.) If 2x2 = 4x2 = 8x2 = 16 --> this works
-    //2.) But, 2x2=4, 2x2=4 does not work. It results in 88. I get a 22 somehow.
-    calculation.numTracker = solution;
-    console.log(calculation.numTracker); 
+    
+    calculation.solutionTracker = solution;
+    console.log(calculation.solutionTracker); 
+    calculation.num1 = "";
     calculation.num2 = "";
-    console.log(calculation.num2)
+    // console.log(calculation.num2)
     calculation.operator = "";
-    console.log(calculation.num1);
+    // console.log(calculation.num1);
 })
 
 
@@ -93,20 +89,44 @@ findSolution.addEventListener('click', () => {
 
 function operate(){
     if (calculation.operator === "*"){
-        solution = multiply(calculation.num1, calculation.num2);
-        return solution;
+         if(calculation.solutionTracker === ""){
+            solution = multiply(calculation.num1, calculation.num2);
+            return solution;
+        }
+        else{
+            solution = multiply(calculation.solutionTracker, calculation.num2)
+            return solution; 
+        }
     }
-    if(calculation.operator === "/"){
-        solution = divideNumbers(calculation.num1, calculation.num2);
-        return solution;
+    else if(calculation.operator === "/"){
+        if(calculation.solutionTracker === ""){
+            solution = divideNumbers(calculation.num1, calculation.num2);
+            return solution;
+        }
+        else{
+            solution = divideNumbers(calculation.solutionTracker, calculation.num2)
+            return solution;
+        }
     }
-    if(calculation.operator === "+"){
-        solution = add(calculation.num1, calculation.num2);
-        return solution; 
+    else if(calculation.operator === "+"){
+        if(calculation.solutionTracker === ""){
+            solution = add(calculation.num1, calculation.num2);
+            return solution; 
+        }
+        else {
+            solution = add(calculation.solutionTracker, calculation.num2);
+            return solution;
+        }
     }
-    if(calculation.operator === "-"){
-        solution = subtract(calculation.num1, calculation.num2);
-        return solution
+    else if(calculation.operator === "-"){
+        if(calculation.solutionTracker === ""){
+            solution = subtract(calculation.num1, calculation.num2);
+            return solution;
+        }
+        else {
+            solution = subtract(calculation.solutionTracker, calculation.num2);
+            return solution; 
+        }
     }
-    console.log(solution);
+    
 }
