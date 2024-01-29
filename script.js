@@ -11,16 +11,93 @@ function divideNumbers(a, b) {
 }
 
 
-let num1 = 0;
-let operator = "";
-let num2 = 0;
-
-
-function operate(a, b){
-    //upon click
-    return add(a, b);
-    // return subtract(num1, num2);
-    // return multiply(num1, num2);
-    // return divideNumbers(num1, num2);
+let calculation = {
+    num1: "",
+    operator: "",
+    num2: "" 
 }
-console.log(operate(3, 4))
+//access array in calculations:
+//calculation.num1[0], or calculation.num1.length
+
+
+//psuedo-code attempt: 
+//button.click -> store number -> display number
+// -Notes here: when a number is entered, several buttons can be pressed, as well as the dot "." for decimals
+// -So until an operator is clicked, the number is appended with the next button clicked
+//operator.click -> store operator
+//button2.click -> store number -> display number
+//equals.click -> run operate function -> display solution
+
+let addClick = document.querySelectorAll(".number");
+
+addClick.forEach(number => {
+    number.addEventListener('click', () => {
+        updateCalculation(number.textContent)
+    }); 
+});
+
+function updateCalculation(buttonValue){
+    let display = document.getElementById('display');
+
+    if(calculation.operator === ""){  
+            calculation.num1 += buttonValue;
+            display.textContent = calculation.num1;
+    }
+    else {
+        //display.textContent = "";
+
+        calculation.num2 += buttonValue;
+        display.textContent = calculation.num2;
+        
+    };
+};
+//OPERATOR BUTTONS
+let multiplication = document.getElementById('multiply');
+multiplication.addEventListener('click', () => {
+    calculation.operator = "*";
+});
+
+let division = document.getElementById('divide');
+multiplication.addEventListener('click', () => {
+    calculation.operator = "/";
+});
+
+let addition = document.getElementById('addition');
+multiplication.addEventListener('click', () => {
+    calculation.operator = "+";
+});
+
+let subtraction = document.getElementById('subtraction');
+multiplication.addEventListener('click', () => {
+    calculation.operator = "-";
+});
+//END OPERATOR BUTTONS
+
+
+
+
+
+
+
+function operate(num1, operator, num2){
+    parseFloat(num1);
+    parseFloat(num2);
+    if (operator === "*"){
+        solution = multiply(num1, num2);
+        return solution;
+    }
+    if(operator === "/"){
+        solution = divideNumbers(num1, num2);
+        return solution;
+    }
+    if(operator === "+"){
+        solution = add(num1, num2);
+        return solution; 
+    }
+    if(operator === "-"){
+        solution = subtract(num1, num2);
+        return solution
+    }
+
+}
+//console.log(operate(3, "/", 4))
