@@ -26,6 +26,7 @@
     font-weight: initial;
     text-shadow: 1.3px 1.3px #383838;
     margin: 5px;
+    flex-wrap: wrap;
 }
 
 #zero{
